@@ -22,10 +22,10 @@ namespace SessionExample
             var host = Environment.GetEnvironmentVariable("REDIS_SESSION_SERVICE_HOST");
             var port = Environment.GetEnvironmentVariable("REDIS_SESSION_SERVICE_PORT");
             var conn = $"{host}:{port}";
-            // var redis = ConnectionMultiplexer.Connect(conn);
+            var redis = ConnectionMultiplexer.Connect(conn);
             
-            // services.AddDataProtection()
-            //     .PersistKeysToRedis(redis, "DataProtection-Keys");
+            services.AddDataProtection()
+                .PersistKeysToRedis(redis, "DataProtection-Keys");
             services.AddDistributedRedisCache(option =>
             {
                 option.Configuration = conn;
