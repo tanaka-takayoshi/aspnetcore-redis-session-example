@@ -46,7 +46,7 @@ namespace SessionExample
                 app.UseDeveloperExceptionPage();
             }
 
-            
+            //This sample is described in https://docs.microsoft.com/en-us/aspnet/core/fundamentals/app-state
             app.Map("/session", subApp =>
             {
                 subApp.Run(async context =>
