@@ -19,8 +19,9 @@ namespace SessionExample
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            var host = Environment.GetEnvironmentVariable("REDIS_SESSION_SERVICE_HOST");
-            var port = Environment.GetEnvironmentVariable("REDIS_SESSION_SERVICE_PORT");
+            var redisSessionService = Environment.GetEnvironmentVariable("REDIS_SESSION_SERVICE_NAME");
+            var host = Environment.GetEnvironmentVariable($"{redisSessionService}_SERVICE_HOST");
+            var port = Environment.GetEnvironmentVariable($"{redisSessionService}_SERVICE_PORT");
             var conn = $"{host}:{port}";
             var redis = ConnectionMultiplexer.Connect(conn);
             
