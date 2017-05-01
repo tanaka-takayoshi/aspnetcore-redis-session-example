@@ -1,39 +1,14 @@
-# Welcome to ASP.NET Core
+# Redis for HTTP session storage example
 
-We've made some big updates in this release, so it’s **important** that you spend a few minutes to learn what’s new.
+See my blog post for the detail.
+- [Configure IDistributedCache and IDataProtection for session in ASP.NET Core](http://tech.en.tanaka733.net/entry/configure-idistributedcache-and-idataprotection-for-session-in-aspnet-core)
+- [ASP.NET Core で複数Webサーバーでセッションを共有するときは、IDistributedCacheとIDataProtectionに注意しないといけない話](http://tech.tanaka733.net/entry/session-sharing-in-aspnetcore)
 
-You've created a new ASP.NET Core project. [Learn what's new](https://go.microsoft.com/fwlink/?LinkId=518016)
+# How to set up on OpenShift
 
-## This application consists of:
-
-*   Sample pages using ASP.NET Core MVC
-*   [Bower](https://go.microsoft.com/fwlink/?LinkId=518004) for managing client-side libraries
-*   Theming using [Bootstrap](https://go.microsoft.com/fwlink/?LinkID=398939)
-
-## How to
-
-*   [Add a Controller and View](https://go.microsoft.com/fwlink/?LinkID=398600)
-*   [Add an appsetting in config and access it in app.](https://go.microsoft.com/fwlink/?LinkID=699562)
-*   [Manage User Secrets using Secret Manager.](https://go.microsoft.com/fwlink/?LinkId=699315)
-*   [Use logging to log a message.](https://go.microsoft.com/fwlink/?LinkId=699316)
-*   [Add packages using NuGet.](https://go.microsoft.com/fwlink/?LinkId=699317)
-*   [Add client packages using Bower.](https://go.microsoft.com/fwlink/?LinkId=699318)
-*   [Target development, staging or production environment.](https://go.microsoft.com/fwlink/?LinkId=699319)
-
-## Overview
-
-*   [Conceptual overview of what is ASP.NET Core](https://go.microsoft.com/fwlink/?LinkId=518008)
-*   [Fundamentals of ASP.NET Core such as Startup and middleware.](https://go.microsoft.com/fwlink/?LinkId=699320)
-*   [Working with Data](https://go.microsoft.com/fwlink/?LinkId=398602)
-*   [Security](https://go.microsoft.com/fwlink/?LinkId=398603)
-*   [Client side development](https://go.microsoft.com/fwlink/?LinkID=699321)
-*   [Develop on different platforms](https://go.microsoft.com/fwlink/?LinkID=699322)
-*   [Read more on the documentation site](https://go.microsoft.com/fwlink/?LinkID=699323)
-
-## Run & Deploy
-
-*   [Run your app](https://go.microsoft.com/fwlink/?LinkID=517851)
-*   [Run tools such as EF migrations and more](https://go.microsoft.com/fwlink/?LinkID=517853)
-*   [Publish to Microsoft Azure Web Apps](https://go.microsoft.com/fwlink/?LinkID=398609)
-
-We would love to hear your [feedback](https://go.microsoft.com/fwlink/?LinkId=518015)
+```
+$ oc import-image my-rhscl/redis-32-rhel7 --from=registry.access.redhat.com/rhscl/redis-32-rhel7 -n openshift --confirm
+$ export REDIS_NAME=redis-session
+$ oc new-app redis-32-rhel7:latest --name=$REDIS_NAME
+$ oc new-app dotnetcore-11-rhel7~https://github.com/tanaka-takayoshi/aspnetcore-redis-session-example.git --env=REDIS_SESSION_SERVICE_NAME=$REDIS_NAME --name=aspnetcore-sessionexample
+```
